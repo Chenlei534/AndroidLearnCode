@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.andriodprimarycodedemo">
+
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <!--应用跨进程通讯的权限-->
+    <uses-permission android:name="com.chenlei.PROVIDER"/>
+    <!--可被其他应用跨进程通讯访问的权限-->
+    <permission android:name="com.chenlei.PROVIDER" android:protectionLevel="normal"/>
+
+    <application
+        android:name="com.example.androidprimarycodedemo.util.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.example.androidprimarycodedemo.MainActivity" />
+        <activity
+            android:name="com.example.androidprimarycodedemo.four_components.about_activity.AboutActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" />
+        <activity android:name="com.example.androidprimarycodedemo.four_components.about_service.ServiceActivity"></activity>
+
+        <service android:name="com.example.androidprimarycodedemo.four_components.about_service.StartService" />
+        <service android:name="com.example.androidprimarycodedemo.four_components.about_service.BindService" />
+        <!-- 服务设置成远程服务需要设置属性 android:process=":remote" -->
+        <!-- 因为设置成远程服务后不能显示启动所以设置actino节点，使得Service可以隐式启动 -->
+        <service
+            android:name="com.example.androidprimarycodedemo.four_components.about_service.BindRemoteService"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.example.andriodprimarycodedemo.MyAIDLService" />
+            </intent-filter>
+        </service>
+
+        <activity android:name="com.example.androidprimarycodedemo.four_components.about_broadcastreceiver.BroadcastReceiverActivity" />
+
+        <receiver android:name="com.example.androidprimarycodedemo.four_components.about_broadcastreceiver.StaticRegisterReceiver">
+            <intent-filter>
+
+                <!-- 接收的广播类型 -->
+                <action android:name="MY_STATIC_BROADCAST" />
+                <action android:name="Intent.ACTION_SCREEN_OFF" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name="com.example.androidprimarycodedemo.custom_view.CustomViewActivity">
+            
+        </activity>
+        <activity android:name="com.example.androidprimarycodedemo.four_components.about_content_provider.ContentProviderActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!--声明外界进程可访问该Provider的权限（读 & 写）-->
+        <!--android:permission="com.chenlei.PROVIDER"-->
+        <!--权限可细分为读 & 写的权限-->
+        <!--外界需要声明同样的读 & 写的权限才可进行相应操作，否则会报错-->
+        <!--android:readPermisson = "scut.carson_ho.Read"-->
+        <!--android:writePermisson = "scut.carson_ho.Write"-->
+
+        <!--设置此provider是否可以被其他进程使用-->
+        <!--android:exported="true"-->
+        <provider
+            android:authorities="com.chenlei.content_provider"
+            android:name="com.example.androidprimarycodedemo.four_components.about_content_provider.CreateLocalContentProvider"
+            android:permission="com.chenlei.PROVIDER"
+            android:exported="true"
+            />
+    </application>
+
+</manifest>

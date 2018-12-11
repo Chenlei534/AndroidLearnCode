@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.androidprimarycodedemo.four_components.about_broadcastreceiver.BroadcastReceiverActivity">
+
+    <Button
+        android:id="@+id/dynamic_register_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="注册动态广播"
+        android:layout_alignParentTop="true"/>
+
+    <Button
+        android:id="@+id/dynamic_unregister_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="解除动态广播"
+        android:layout_below="@+id/dynamic_register_button"/>
+
+    <Button
+        android:id="@+id/send_dynamic_broadcast_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送动态广播"
+        android:layout_below="@+id/dynamic_unregister_button"/>
+
+    <Button
+        android:id="@+id/send_static_broadcast_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送静态广播"
+        android:layout_below="@+id/send_dynamic_broadcast_button"/>
+
+    <Button
+        android:id="@+id/register_send_local_broadcast_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="注册并发送本地广播"
+        android:layout_below="@+id/send_static_broadcast_button"/>
+
+    <Button
+        android:id="@+id/unregister_local_broadcast_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="解除本地广播"
+        android:layout_below="@+id/register_send_local_broadcast_button"/>
+
+</RelativeLayout>
