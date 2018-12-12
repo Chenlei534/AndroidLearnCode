@@ -7,8 +7,8 @@
     android:orientation="vertical"
     tools:context="com.example.androidprimarycodedemo.custom_view.CustomViewActivity">
 
-    <com.example.androidprimarycodedemo.custom_view.CustomCanvasView
-        android:id="@+id/custom_basic_shape_view"
+    <com.example.androidprimarycodedemo.custom_view.CustomViewCanvas
+        android:id="@+id/custom_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

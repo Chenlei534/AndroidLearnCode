@@ -10,13 +10,13 @@ import com.example.andriodprimarycodedemo.R;
  * 用于测试自定义View的Activity
  */
 public class CustomViewActivity extends AppCompatActivity {
-    private CustomBasicShapeView customBasicShapeView;
+    private CustomViewPath mCustomViewPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_view);
 
-//        customBasicShapeView=findViewById(R.id.custom_basic_shape_view);
+//        mCustomViewPath=findViewById(R.id.custom_view);
     }
 }

@@ -8,6 +8,8 @@
     <!--可被其他应用跨进程通讯访问的权限-->
     <permission android:name="com.chenlei.PROVIDER" android:protectionLevel="normal"/>
 
+    <!--application节点下添加该语句关闭硬件加速-->
+    <!--android:hardwareAccelerated="false"-->
     <application
         android:name="com.example.androidprimarycodedemo.util.App"
         android:allowBackup="true"
@@ -47,14 +49,14 @@
         </receiver>
 
         <activity android:name="com.example.androidprimarycodedemo.custom_view.CustomViewActivity">
-            
-        </activity>
-        <activity android:name="com.example.androidprimarycodedemo.four_components.about_content_provider.ContentProviderActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.example.androidprimarycodedemo.four_components.about_content_provider.ContentProviderActivity">
+
         </activity>
         <!--声明外界进程可访问该Provider的权限（读 & 写）-->
         <!--android:permission="com.chenlei.PROVIDER"-->

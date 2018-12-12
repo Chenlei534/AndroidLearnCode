@@ -21,20 +21,20 @@ import com.orhanobut.logger.Logger;
 
 
 
-public class CustomBasicShapeView extends View {
+public class CustomViewBasicShape extends View {
     //创建画笔
     private Paint mPaint;
 
-    public CustomBasicShapeView(Context context) {
+    public CustomViewBasicShape(Context context) {
         super(context);
     }
 
-    public CustomBasicShapeView(Context context, @Nullable AttributeSet attrs) {
+    public CustomViewBasicShape(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initPaint();
     }
 
-    public CustomBasicShapeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CustomViewBasicShape(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

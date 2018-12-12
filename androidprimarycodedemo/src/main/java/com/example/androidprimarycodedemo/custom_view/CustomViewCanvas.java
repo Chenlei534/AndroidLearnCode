@@ -1,36 +1,48 @@
 package com.example.androidprimarycodedemo.custom_view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.andriodprimarycodedemo.R;
+import com.orhanobut.logger.Logger;
+
 
 /**
  * 画布（Canvas）常用操作代码
  * Canvas的相关操作在同一个对象的条件下都是可以叠加的
  */
-public class CustomCanvasView extends View {
+public class CustomViewCanvas extends View {
     private Paint mPaint;
     private int width;
     private int height;
+    //绘制动画使用
+    private Context mContext;
+    private Handler mHandler;
+    private Bitmap mBitmap;
+    private int animCurrentPage=0; //当前页码
+    private int animAllPage=22;      //总页数
+    private int animDuration=1000;   //动画时长
 
-    public CustomCanvasView(Context context) {
+    public CustomViewCanvas(Context context) {
         super(context);
         initPaint();
     }
 
-    public CustomCanvasView(Context context, @Nullable AttributeSet attrs) {
+    public CustomViewCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initPaint();
-    }
-
-    public CustomCanvasView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        initPaint();
+        initAnimator(context);
     }
 
     @Override
@@ -41,13 +53,22 @@ public class CustomCanvasView extends View {
     }
 
     @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        width=w;
+        height=h;
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
 //        canvasTranslate(canvas);
 //        canvasScale(canvas);
 //        canvasRotate(canvas);
-        canvasSkew(canvas);
+//        canvasSkew(canvas);
+//        canvasDrawText(canvas);
+        canvasDrawAnimator(canvas);
     }
 
     private void initPaint(){
@@ -155,4 +176,65 @@ public class CustomCanvasView extends View {
      *    ...          //具体操作
      *    restore();   //回滚到之前的状态
      */
+
+    /**
+     * 使用Canvas.drawText()方法绘制文字
+     * @param canvas
+     */
+    private void canvasDrawText(Canvas canvas){
+        String str="ABCDEFGH";
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setStrokeWidth(1);
+        mPaint.setTextSize(100);
+
+        canvas.drawText(str,300,600,mPaint);
+    }
+
+    /**
+     * 根据图片绘制动画
+     * @param canvas
+     */
+    private void canvasDrawAnimator(Canvas canvas){
+        canvas.translate(width/2,height/2);
+
+        mBitmap= BitmapFactory.decodeResource(mContext.getResources(), R.drawable.animator);
+
+        int wid=mBitmap.getWidth()/(animAllPage/2);
+        int hei=mBitmap.getHeight()/2;
+
+        Rect src=null;
+        if(animCurrentPage<11) {
+            src = new Rect(wid * animCurrentPage, 0, wid * (animCurrentPage + 1), hei);
+        }else {
+            src = new Rect(wid * (animCurrentPage-11), hei, wid * (animCurrentPage-11 + 1), hei*2);
+        }
+        Rect dst = new Rect(-200, -200, 200, 200);
+
+        canvas.drawBitmap(mBitmap, src, dst, null);
+    }
+
+    /**
+     * 初始化动画所需的参数等
+     * @param context
+     */
+    private void initAnimator(Context context){
+        mContext=context;
+        mPaint = new Paint();
+        mPaint.setColor(0xffFF5317);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setAntiAlias(true);
+
+        mHandler=new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message message) {
+                animCurrentPage=(animCurrentPage+1)%animAllPage;
+                Logger.e(animCurrentPage+"");
+                mHandler.sendEmptyMessageDelayed(0,animDuration/animAllPage);
+                invalidate();
+
+                return false;
+            }
+        });
+        mHandler.sendEmptyMessageDelayed(0,animDuration/animAllPage);
+    }
 }
