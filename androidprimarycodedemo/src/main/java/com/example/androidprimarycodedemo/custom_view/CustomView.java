@@ -95,6 +95,15 @@ public class CustomView extends View {
     /**
      * 用于绘图的方法
      * @param canvas
+     *
+     * 一个完成的绘制过程会依次绘制
+     * 1、背景                 drawBackground()    不能重写
+     * 2、主体                 onDraw()            可重写
+     * 3、子View               dispatchDraw()      可重写
+     * 4、滑动边缘渐变和滑动条   onDrawForeground()  可重写
+     * 5、前景                 onDrawForeground()   可重写
+     * 上面这5个内容
+     * 所以可以通过重写相应的方法来控制View绘制的顺序
      */
     @Override
     protected void onDraw(Canvas canvas) {
