@@ -2,10 +2,14 @@ package com.example.androidprimarycodedemo.four_components.about_service;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
@@ -13,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
 import com.example.andriodprimarycodedemo.R;
+import com.example.androidprimarycodedemo.custom_view.CustomViewActivity;
 import com.example.androidprimarycodedemo.four_components.about_activity.AboutActivity;
 import com.orhanobut.logger.Logger;
 
@@ -116,79 +121,67 @@ public class BindService extends Service {
          */
         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         public void startReceptionService(){
+            setReceptionService();
         }
     }
+
+    /**
+     * 设置为前台服务
+     */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void setReceptionService(){
+        /**
+         * Andorid 8.0弹窗需要NotificaitonChannel
+         */
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // 通知渠道的id
+        String id = "my_channel_01";
+        // 用户可以看到的通知渠道的名字.
+        CharSequence name = "这是一个渠道名称";
+        // 用户可以看到的通知渠道的描述
+        String description = "这是一个渠道描述";
+        NotificationChannel mChannel = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            mChannel = new NotificationChannel(id, name, importance);
+            // 配置通知渠道的属性
+            mChannel.setDescription(description);
+            // 设置通知出现时的闪灯（如果 android 设备支持的话）
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.RED);
+            // 设置通知出现时的震动（如果 android 设备支持的话）
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            //最后在notificationmanager中创建该通知渠道
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
         //设置需要跳转的Intent数组
         Intent[] intents = new Intent[2];
         Intent intent_main = new Intent(getApplicationContext(), AboutActivity.class);
-        Intent intent_target = new Intent(getApplicationContext(), ServiceActivity.class);
+        Intent intent_target = new Intent(getApplicationContext(), CustomViewActivity.class);
         intents[0] = intent_main;
         intents[1] = intent_target;
 
         PendingIntent pi=PendingIntent.getActivities(BindService.this,0, intents,PendingIntent.FLAG_UPDATE_CURRENT);
         //设置通知栏
-        Notification notification=new Notification.Builder(BindService.this)
-                .setContentTitle("心电")
-                .setContentText("后台运行中")
-                .setWhen(System.currentTimeMillis())
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(pi)   //设置点击跳转到某Activity
-                .setAutoCancel(false)
-                .build();
-//            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//            NotificationCompat.Builder builder = new NotificationCompat.Builder(BindService.this)
-//                    .setContentTitle("心电")
-//                    .setContentText("后台运行中")
-//                    .setWhen(System.currentTimeMillis())
-//                    .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
-//                    .setSmallIcon(R.mipmap.ic_launcher)
-//                    .setContentIntent(pi)   //设置点击跳转到某Activity
-//                    .setAutoCancel(false);
-//
-//            Notification notification = builder.build();
-//            notification.flags = Notification.FLAG_AUTO_CANCEL;
-//            mNotificationManager.notify((int) System.currentTimeMillis() / 1000, notification);
+        Notification.Builder builder = new Notification.Builder(BindService.this)
+                    .setContentTitle("前台服务")
+                    .setContentText("后台服务运行中")
+                    .setWhen(System.currentTimeMillis())
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentIntent(pi)   //设置点击跳转到某Activity
+                    .setAutoCancel(false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setChannelId(id);
+        }
+
+        Notification notification=builder.build();
+        notification.flags = Notification.FLAG_AUTO_CANCEL;
+        mNotificationManager.notify(1, notification);
 
         startForeground(1,notification);
         Logger.e("前台服务");
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private void setReceptionService1(){
-        // 在API11之后构建Notification的方式
-    Notification.Builder builder = new Notification.Builder(this.getApplicationContext()); //获取一个Notification构造器
-    Intent nfIntent = new Intent(this, AboutActivity.class);
-
-    builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0)) // 设置PendingIntent
-            .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),R.mipmap.ic_launcher))
-            .setContentTitle("下拉列表中的Title")
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentText("要显示的内容")
-            .setWhen(System.currentTimeMillis()); // 设置该通知发生的时间
-
-        Notification notification = builder.build(); // 获取构建好的Notification
-        notification.defaults = Notification.DEFAULT_SOUND; //设置为默认的声音
-        startForeground(110, notification);
-        Logger.e("前台服务1");
-    }
-    private void setRe2(){
-        //如果API大于18，需要弹出一个可见通知
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            Notification.Builder builder = new Notification.Builder(this);
-            builder.setSmallIcon(R.mipmap.ic_launcher);
-            builder.setContentTitle("KeepAppAlive");
-            builder.setContentText("DaemonService is runing...");
-            startForeground(12, builder.build());
-            // 如果觉得常驻通知栏体验不好
-            // 可以通过启动CancelNoticeService，将通知移除，oom_adj值不变
-//            Intent intent = new Intent(this, AboutActivity.class);
-//            startService(intent);
-        } else {
-            startForeground(12, new Notification());
-        }
-
     }
 }
