@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.andriodprimarycodedemo.R;
+import com.orhanobut.logger.Logger;
 
 /**
  * Create by chenlei on 2018-11-27
@@ -49,8 +50,8 @@ public class BroadcastReceiverActivity extends AppCompatActivity {
                 mDynamicRegisterReceiver=new DynamicRegisterReceiver(); //实例化广播接收者和IntentFilter
                 IntentFilter intentFilter=new IntentFilter();
                 intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-                intentFilter.addAction(RECEIVER_ACTION);    //设置接收广播类型
                 intentFilter.addAction(Intent.ACTION_SCREEN_OFF);   //可以接收多个广播类型
+                intentFilter.addAction(RECEIVER_ACTION);    //设置接收广播类型
                 registerReceiver(mDynamicRegisterReceiver,intentFilter);    //注册广播
             }
         });
@@ -73,13 +74,18 @@ public class BroadcastReceiverActivity extends AppCompatActivity {
         sendStaticBroadcastButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Logger.e("发送静态广播");
                 //发送静态广播
                 /**
                  * Android8.0以上禁止使用大部分的静态广播
                  */
                 Intent intent=new Intent();
                 intent.setAction("MY_STATIC_BROADCAST");
-                intent.setComponent(new ComponentName("com.example.andriodprimarycodedemo.four_components.about_broadcastreceiver","StaticRegisterReceiver"));
+                intent.setComponent(
+                        new ComponentName(
+                                "com.example.andriodprimarycodedemo.four_components.about_broadcastreceiver",
+                                "com.example.andriodprimarycodedemo.four_components.about_broadcastreceiver.BroadcastReceiverActivity"
+                        ));
                 sendBroadcast(intent);
             }
         });
@@ -105,7 +111,5 @@ public class BroadcastReceiverActivity extends AppCompatActivity {
                 mLocalBroadcastManager.unregisterReceiver(mDynamicRegisterReceiver);
             }
         });
-
     }
-
 }

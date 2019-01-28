@@ -20,4 +20,5 @@ public class DynamicRegisterReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Logger.e("接收到一个动态广播");
     }
+
 }
