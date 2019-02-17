@@ -2,10 +2,14 @@ package com.example.androidprimarycodedemo.custom_view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.andriodprimarycodedemo.R;
 
 public class CustomView extends View {
     //宽度和高度的数值
@@ -31,6 +35,9 @@ public class CustomView extends View {
      */
     public CustomView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        //获取自定义属性值
+        TypedArray customViewAttrs=context.obtainStyledAttributes(attrs, R.styleable.CustomView);
+        int mColor=customViewAttrs.getColor(R.styleable.CustomView_custom_view_color, Color.RED);
     }
 
     @SuppressLint("NewApi")
@@ -39,7 +46,7 @@ public class CustomView extends View {
     }
 
     /**
-     * 用来测量View大小1
+     * 用来测量View大小
      * 测量模式：
      *      UNSPECIFIED：00 unspecified
      *          默认值，父控件没有给子View任何限制，子View可以设置为任意大小

@@ -19,8 +19,9 @@ import android.view.View;
 import com.example.andriodprimarycodedemo.R;
 import com.orhanobut.logger.Logger;
 
-
-
+/**
+ * 基础图形的绘制
+ */
 public class CustomViewBasicShape extends View {
     //创建画笔
     private Paint mPaint;
