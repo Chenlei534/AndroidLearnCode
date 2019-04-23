@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="sequentially">
+    <!--ordering-->
+    <!--值为together时表示动画集合中的子动画同时播放-->
+    <!--值为sequentially时表示动画集合中的子动画按照顺序依次播放-->
+
+    <!--objectAnimator 对应于ObjectAnimator-->
+    <!--propertyName 属性动画作用对象的属性名称-->
+    <!--duration 动画持续时间-->
+    <!--valueFrom 属性起始值-->
+    <!--valueTo 属性结束值-->
+    <!--startOffset 动画启动的延时时间-->
+    <!--repeatCount 动画重复次数-->
+    <!--repeatMode 动画重复模式-->
+    <!--valueType 属性的类型-->
+    <objectAnimator
+        android:propertyName="x"
+        android:duration="3000"
+        android:valueFrom="100"
+        android:valueTo="300"
+        android:startOffset="1000"
+        android:repeatCount="-1"
+        android:repeatMode="restart"
+        android:valueType="intType"
+    />
+    <!--animator对应于ValueAnimator-->
+    <animator />
+    <set>
+    </set>
+</set>

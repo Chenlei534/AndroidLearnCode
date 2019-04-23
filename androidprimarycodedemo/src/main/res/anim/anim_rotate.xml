@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android">
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="3000">
+
+    <!--rotate 旋转动画-->
+    <!--fromDegrees 旋转开始的角度-->
+    <!--toDegrees 旋转结束的角度-->
+    <!--pivotX 旋转的轴点的x坐标-->
+    <rotate
+        android:fromDegrees="0"
+        android:toDegrees="360"
+        android:pivotX="0"
+        android:pivotY="0" />
 
 </set>

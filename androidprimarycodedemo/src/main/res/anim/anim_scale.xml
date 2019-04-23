@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android">
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="3000">
+
+    <!--scale 表示缩放动画-->
+    <!--fromXScale 水平方向缩放起始值-->
+    <!--toXScale 水平方向缩放结束值-->
+    <!--pivotX 缩放轴点x坐标-->
+    <scale
+        android:fromXScale="0.5dp"
+        android:toXScale="100dp"
+        android:fromYScale="0.5dp"
+        android:toYScale="100dp"
+        android:pivotX="0"
+        android:pivotY="0"/>
 
 </set>
