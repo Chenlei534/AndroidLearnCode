@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shareInterpolator="false"
+    android:duration="3000"
+    android:fillAfter="false">
+    <!--fillAfter 动画结束后是否停留在结束位置-->
+    <!--duration 动画持续时间-->
+    <!--shareInterpolator 集合中的动画是否和集合共享一个插值器-->
+
+    <!--translate 平移动画效果-->
+    <!--formXDelta 表示x的起始值-->
+    <!--toXDelta 表示x的结束值-->
+    <!--fromYDelta 表示y的起始值-->
+    <!--toYDelta 表示y的结束值-->
+    <translate
+        android:fromXDelta="-300"
+        android:toXDelta="300"
+        android:fromYDelta="-300"
+        android:toYDelta="300"
+        />
+
+</set>
