@@ -1,1 +1,1 @@
-include ':app',':androidprimarycodedemo'
+include ':app',':androidprimarycodedemo', ':kotlinlearn'
