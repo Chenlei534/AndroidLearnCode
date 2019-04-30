@@ -1,5 +1,8 @@
 package com.example.androidprimarycodedemo.animation;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +25,7 @@ public class AnimationActivity extends AppCompatActivity {
 
         animBtn=findViewById(R.id.animation_button);
 //        animationXMLMethod();
-        animationCodeMethod();
+//        animationCodeMethod();
     }
 
     /**
@@ -33,11 +36,13 @@ public class AnimationActivity extends AppCompatActivity {
         Animation animation_rotate= AnimationUtils.loadAnimation(this,R.anim.anim_rotate);
         Animation animation_scale= AnimationUtils.loadAnimation(this,R.anim.anim_scale);
         Animation animation_alpha= AnimationUtils.loadAnimation(this,R.anim.anim_alpha);
+        Animation animation_set=AnimationUtils.loadAnimation(this,R.anim.anim_set);
 
-        animBtn.startAnimation(animation_translate);
+//        animBtn.startAnimation(animation_translate);
 //        animBtn.startAnimation(animation_rotate);
 //        animBtn.startAnimation(animation_scale);
 //        animBtn.startAnimation(animation_alpha);
+        animBtn.startAnimation(animation_set);
     }
 
     /**
@@ -71,5 +76,35 @@ public class AnimationActivity extends AppCompatActivity {
         alphaAnimation.setDuration(3000);
 
         animBtn.startAnimation(alphaAnimation);
+    }
+
+    /**
+     * 属性动画 xml实现
+     */
+    private void objectAnimatorXMLMethod(){
+        AnimatorSet animatorSet= (AnimatorSet)AnimatorInflater.loadAnimator(this,R.animator.animator_demo);
+        animatorSet.setTarget(animBtn);
+        animatorSet.start();
+    }
+
+    /**
+     * 属性动画 代码实现
+     */
+    private void objectAnimatorCodeMethod(){
+        ObjectAnimator translationAnimator=ObjectAnimator.ofFloat(animBtn,"translationX",300);
+        translationAnimator.start();
+
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.playTogether(
+                ObjectAnimator.ofFloat(animBtn,"rotationX",0,360),
+                ObjectAnimator.ofFloat(animBtn,"rotationY",0,180),
+                ObjectAnimator.ofFloat(animBtn,"rotation",0,-90),
+                ObjectAnimator.ofFloat(animBtn,"translationX",0,90),
+                ObjectAnimator.ofFloat(animBtn,"translationY",0,90),
+                ObjectAnimator.ofFloat(animBtn,"scaleX",1,1.5f),
+                ObjectAnimator.ofFloat(animBtn,"scaleY",1,0.5f),
+                ObjectAnimator.ofFloat(animBtn,"alpha",1,0.25f,1)
+        );
+        animatorSet.start();
     }
 }
